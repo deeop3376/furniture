@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul{position: relative;}
+        .item{list-style: none;width: 100px;height: 100px;position: absolute;opacity: 0.7;transition: all ease 1s}
+        .item:nth-child(1){background-color: red}
+        .item:nth-child(2){background-color: blue}
+        .item:nth-child(3){background-color: black}
+        .item:nth-child(4){background-color: green}
+        .active{z-index: 10;opacity: 1;}
+        button{width:40px;height: 50px;}
+        button:nth-child(3){position: relative;left:96px;}
+        .sul{position: relative;left: 40px; z-index: 20;}
+        .active1{border:1px solid black;opacity: 1;}
+        .ann{list-style: none;width: 10px;height: 10px;background-color: gray;border-radius: 50%;float: left;
+            margin-left: 3px;opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <ul>
+            <li class="item"></li>
+            <li class="item"></li>
+            <li class="item"></li>
+            <li class="item"></li>
+        </ul>
+        <button onclick="gopre()"><</button>
+        <button onclick="gonext()">></button>
+        <ul class="sul">
+            <li class="ann" data-index='0'></li>
+            <li class="ann" data-index='1'></li>
+            <li class="ann" data-index='2'></li>
+            <li class="ann" data-index='3'></li>
+        </ul>
+    </div>
+    <script>
+        var item=document.querySelectorAll('.item')
+        var ann=document.querySelectorAll('.ann')
+        var index=0
+        function clearactive(){
+            for(let i=0;i<item.length;i++){item[i].className='item'}
+            for(let j=0;j<ann.length;j++){ann[j].className='ann'}
+        }
+        function chactive(k){
+            if(k){index=k}
+            console.log(index)
+            if(index>=item.length){index=0}
+            if(index<0){index=item.length-1}
+            clearactive()
+            item[index].className='item active'
+            ann[index].className='ann active1'
+        }
+        function gopre(){
+            index=index-1
+            chactive()
+        }
+        function gonext(){
+            index=index+1
+            chactive()
+            console.log('gonext')
+        }
+        for(let k=0;k<item.length;k++){
+            ann[k].addEventListener('click',function(){
+                
+                var ai=this.getAttribute('data-index')
+                console.log(ai)
+                chactive(ai)
+            })
+        }
+        setInterval(() => {
+            gonext()
+        }, 4000);
+    </script>
+</body>
+</html>

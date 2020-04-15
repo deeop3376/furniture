@@ -1,0 +1,24 @@
+module.exports={
+    path:'/bs',
+    component:()=>import('@/views/admin'),
+    children:[
+        {
+            path:'goods',
+            component:()=>import('@/views/admin/goods'),
+          
+        },
+        {
+            path:'orders',
+            component:()=>import('@/views/admin/orders')
+        },
+        {
+            path:'users',
+            component:()=>import('@/views/admin/users')
+        },
+        {
+            path:'editGood',
+            component:()=>import('@/views/admin/goods/editGood'),
+            name:'editGood'
+        }
+    ]
+}

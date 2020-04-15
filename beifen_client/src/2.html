@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="referrer" content="never"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2</title>
+    <style>
+ 
+        .vLine{width:200px;height: 300px;border:1px solid grey;}
+    </style>
+</head>
+
+<body>
+    <div class="vLine">
+        
+    </div>
+    <button onclick="a()()">dianji</button>
+    <button onclick="debounce()">的哥</button>
+    
+    <span>xffffffffff</span>
+    <script>
+       
+        // function open_without_referrer(link) {
+        //     document.body.appendChild(document.createElement('iframe')).src = 'javascript:"<script>top.location.replace(\'' + link + '\')<\/script>"';
+        // }
+        // var url='http://127.0.0.1:5500/src/1.html'
+        // open_without_referrer(url)
+    //     var arr1=[{name:'zs',id:1},{name:'ls',id:2}]
+    //     window.sessionStorage.setItem('arr1',JSON.stringify(arr1))
+    //    var arr2= window.sessionStorage.getItem('arr1')
+    //    console.log(JSON.parse(arr2))
+    function debounce() {
+          var timeout = null;
+          return function() {
+              if(timeout !== null)
+                      clearTimeout(timeout);
+              timeout = setTimeout(function(){
+                console.log(Math.random());
+              }, 1000);
+          }
+      }
+      // 处理函数
+      function handle() {
+          console.log(Math.random());
+      }
+      // 滚动事件
+      window.addEventListener('resize', debounce());
+    </script>
+</body>
+
+</html>
