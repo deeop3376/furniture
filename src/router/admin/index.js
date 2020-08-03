@@ -1,24 +1,43 @@
 module.exports={
     path:'/bs',
     component:()=>import('@/views/admin'),
+    name:'home1',
+    meta:{title:'首页'},
+    redirect:'/bs/goods',
     children:[
         {
             path:'goods',
             component:()=>import('@/views/admin/goods'),
-          
+            name:'goods',
+            meta:{title:'商品管理'}
         },
         {
             path:'orders',
-            component:()=>import('@/views/admin/orders')
+            component:()=>import('@/views/admin/orders'),
+            name:'orders',
+            meta:{title:'订单管理'}
         },
         {
             path:'users',
-            component:()=>import('@/views/admin/users')
+            component:()=>import('@/views/admin/users'),
+            name:'users',
+            meta:{title:'用户管理'}
         },
         {
             path:'editGood',
             component:()=>import('@/views/admin/goods/editGood'),
-            name:'editGood'
+            name:'editGood',
+            meta:{title:'编辑商品'}
+        },{
+            path:'addGood',
+            component:()=>import('@/views/admin/goods/addGood'),
+            name:'addGood',
+            meta:{title:'添加商品'}
+        },{
+            path:'addSort',
+            component:()=>import('@/views/admin/goods/addSort'),
+            name:'addSort',
+            meta:{title:'添加分类'}
         }
     ]
 }

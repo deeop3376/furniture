@@ -4,10 +4,10 @@
       <div class="display_title"><p>新品上架</p><hr/></div>
       <div class="goods">
         <ul>
-            <router-link  :to="{path:'/goodsinfo',query:{goodsId:item._id}}" tag="li" v-for="item in goodsList" :key="item.id">
+            <router-link  :to="{path:'/goodsinfo',query:{goodsId:item._id}}" tag="li" v-for="item in goodsList" :key="item._id">
                 <div class="img">
                     <a href="#">
-                <img :src="item.img[0].imgUrl">
+                <img v-lazy="item.indexImg">
                 </a>                
                 <p v-text="item.name"></p>
                 <p v-text="item.price"></p>
@@ -16,8 +16,8 @@
            
            
         </ul>
-       
-        <router-view />
+        
+        
       </div>
     </div>
   </div>
@@ -33,9 +33,9 @@ export default {
     };
   },
   computed: {},
-  activated() {
+  activated() { 
    
-    this.axios.get('/api2/goods/test').then((res)=>{
+    this.axios.get('/api2/sort/getIndexSmallSort').then((res)=>{
       var status=res.data.status
       if(status===0){
         
@@ -43,7 +43,7 @@ export default {
         
         // console.log
       }else{
-        console.log('test failed')
+        console.log('getIndexSmallSort failed')
       }
     })
   },

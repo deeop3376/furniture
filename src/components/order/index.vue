@@ -1,5 +1,6 @@
 <template>
 <div class='main'>
+    <tou />
     <span class="order_sure">确认订单</span>
     <hr/>
     <div class="goods_info">
@@ -18,7 +19,7 @@
         <div class="goods_list">
             <ul class="ul_goods">
                 <li class="li_goods" v-for="item in goodInfo" :key="item._id">
-                    <img class="good_img" src="@/assets/logo.png" />
+                    <img class="good_img" :src="item.indexImg" />
                     <div class="good_desc">{{item.name}}</div>
                     <div class="good_price">￥{{item.price}}</div>
                     <div class="good_count">{{item.goodCount}}</div>
@@ -38,10 +39,10 @@
 </template>
 
 <script>
-
+import tou from '@/components/header'
 export default {
 name:'order',
-components: {},
+components: {tou},
 data() {
 return {
     goodInfo:[],
@@ -50,26 +51,30 @@ return {
 }
 },
 activated() {
-   
+   this.sum_count=0//第二次进入该页面，data里面的值是第一次的值，所以要在这里重新赋值
+   this.sum_price=0
   
-   var goods= window.sessionStorage.getItem('goods') //goods是一个对象数组形如：[{goodId:'11',goodCount:222},{...}]
-   goods=JSON.parse(goods)
+   //goods是一个对象数组形如：[{goodId:'11',goodCount:222},{...}]
+  var goods=JSON.parse(window.sessionStorage.getItem('goods'))
 //    console.log(goods)
-   var goodsInfo=[]
+
+ var self=this
     this.axios.post('/api2/goods/getGood1',{goods}).then((res)=>{
         var status=res.data.status
+
+     
         if(status===0){
             if(res.data.data instanceof Array){
-                 goodsInfo=res.data.data
-                 console.log(goodsInfo)
-               for(var i=0;i<goods.length;i++){
-                    this.goodInfo[i]=Object.assign(goodsInfo[i],goods[i])
-                }
+                 self.goodInfo=res.data.data
+              
+            //    for(var i=0;i<goods.length;i++){
+            //         this.goodInfo[i]=Object.assign(goodsInfo[i],goods[i])
+            //     }
                 //this.goodInfo数组会出现__ob__: Observer属性，使用v-for遍历goodInfo属性遍历不到
-              this.goodInfo= JSON.parse(JSON.stringify(this.goodInfo))
-              for(let j=0;j<this.goodInfo.length;j++){  //合计总数量和总金额
-                  this.sum_count=this.goodInfo[j].goodCount+this.sum_count
-                  this.sum_price=this.goodInfo[j].goodCount*this.goodInfo[j].price+this.sum_price
+            //   this.goodInfo= JSON.parse(JSON.stringify(this.goodInfo))
+              for(let j=0;j<self.goodInfo.length;j++){  //合计总数量和总金额
+                  self.sum_count=self.goodInfo[j].goodCount+self.sum_count
+                  self.sum_price=self.goodInfo[j].goodCount*self.goodInfo[j].price+self.sum_price
               }
             }
         }
@@ -84,7 +89,7 @@ methods: {
             userId:window.sessionStorage.getItem('userId'),
             goods:JSON.parse(window.sessionStorage.getItem('goods')),
             address:'河南省郑州市惠济区'
-        }).then((res)=>{
+        }).then((res)=>{ 
             if(res.data.status===0){
                 alert('submit order success')
             }
@@ -106,7 +111,7 @@ deactivated(){
 .order_sure{font-size: 30px;}
 .address{font-size:20px;height: 50px;line-height: 50px;}
 .toPay{width: 70px;height: 40px;background-color:coral;color:white;line-height: 40px;border-radius: 2px;}
-.good_desc{font-size:10px;width: 70px;height: 90px;overflow: hidden;}
+.good_desc{font-size:10px;width: 70px;height: 90px;overflow: hidden;text-align: center;}
 .goods_head{width: 100%;}
 .ul_head{display: flex;justify-content: space-between}
 </style>

@@ -1,8 +1,21 @@
 <template>
 <div class='main'>
+    <tou />
+    <div class="top_head">
+        
+        <h1 style="color:chocolate">我的购物车</h1>
+        <div class="searchbox">
+            <!-- <input type="text" v-model="searchContent" class="searchContent">
+            <div class="searchBtn"></div> -->
+        </div>
+    </div>
     <div class='content'>
+        
         <div class="cart_head">
-            <input class="check_all" @change="checkAll" v-model="isCheckAll" type="checkbox" />
+            <div class="chooseAll">
+                全选<input class="check_all" @change="checkAll" v-model="isCheckAll" type="checkbox" />
+            </div>
+            
             <div class="goods_info">商品信息</div>
             <div class="goods_price">价格</div>
             <div class="goods_count">数量</div>
@@ -12,7 +25,7 @@
             <li class="order_item" v-for="item in cart.goods" :key="item._id">
                 <input type="checkbox" v-model="item.isChecked"  @change="allMoney(item)">
                 <div class="gimg">
-                    <img class="good_img" :src='item.img[0].imgUrl'>
+                    <img class="good_img" :src='item.indexImg'>
                 </div>
                 <div class="item_name">{{item.name}}</div>
                 
@@ -41,9 +54,14 @@
 
 <script>
 import axios from 'axios'
+import sort from '@/components/sort'
+import tou from '@/components/header'
 export default {
 name:'',
-components: {},
+components: {
+    sort,
+    tou
+},
 data() {
 return {
     checkCount:0,
@@ -56,13 +74,28 @@ return {
 }
 },
 computed: {},
-activated() {
+// beforeRouteEnter(to,from,next){
+//     if(window.localStorage.getItem('ttoken')){
+//         next()
+//     }else{
+//         alert('please login')
+//         next({path:'/logOrreg'})
+//     }
+// },
+activated() { 
     var userId=window.sessionStorage.getItem('userId')
+   
     this.axios.get('/api2/cart/getCart?userId='+userId).then((res)=>{
         var status=res.data.status
         if(status===0){
             this.cart=res.data.data
-            console.log(this.cart)
+          
+        }else if(status===401){
+            localStorage.removeItem('ttoken')
+            this.$router.push('/logOrreg')
+        }else{
+           
+            this.$router.push('/logOrreg')
         }
     })
 },
@@ -82,7 +115,7 @@ methods: {
                 this.checkPrice=this.checkPrice+clist[i].price*clist[i].goodCount
                 this.checkCount=this.checkCount+clist[i].goodCount
             }
-        }else{console.log(ischeckAll)
+        }else{
             this.checkCount=0
             this.checkPrice=0
             for(var j=0;j<clist.length;j++){
@@ -109,14 +142,12 @@ methods: {
             if(isck===true){
                 this.isCheckAll=true
             }
-            console.log(this.checkCount)
-                console.log(this.checkPrice)
+            
         }else if(checked===false){
             this.checkCount=this.checkCount-count
              this.isCheckAll=false
             this.checkPrice=this.checkPrice-price*count
-            console.log(this.checkCount)
-                console.log(this.checkPrice)
+           
         }
     },
     subCount(item){
@@ -128,8 +159,7 @@ methods: {
             if(isck===true){
                 this.checkCount--
                 this.checkPrice=this.checkPrice-item.price
-                console.log(this.checkCount)
-                console.log(this.checkPrice)
+             
             }         
         }
     },
@@ -139,18 +169,17 @@ methods: {
         if(isck===true){ //如果商品被选中
                 this.checkCount++ //结算时商品选中的总商品数量 加1
                 this.checkPrice=this.checkPrice+item.price //价钱随之增加
-                console.log(this.checkCount)
-                console.log(this.checkPrice)
+               
             }   
     },
     goPay(){
         this.payGood={}
         this.payLists=[]
         let cls=this.cart.goods  //goods是购物车的表（goodId,goodCount）和商品的表合并到一起的
-        console.log(cls)
+       
         for(let i=0;i<cls.length;i++){
             if(cls[i].isChecked){
-                this.payGood={}
+                this.payGood={} 
                 this.payGood.goodId=cls[i].goodId
                 this.payGood.goodCount=cls[i].goodCount
                 this.payLists.push(this.payGood)
@@ -188,6 +217,7 @@ methods: {
 </script>
 <style scoped>
 .main .content{width: 100%;}
+.top_head{width:80%;margin:0 auto;display: flex;justify-content:space-between;}
 .cart_head{width: 80%;height: 50px;border:1px solid black;margin:0 auto;display: flex;align-items: center;justify-content: space-around;}
 .cart_head>input{position: relative;left: -30px;}
 .goods_price{position: relative;left:30px;}
@@ -203,5 +233,8 @@ padding: 5px;align-items: center;justify-content: space-around}
 .pay>span{line-height: 50px;}
 .item_name{width: 150px;height: 65px;display: -webkit-box;-webkit-box-orient: vertical;
 -webkit-line-clamp: 3;overflow: hidden;line-height: 65px; }
-
+.chooseAll{position: relative;left:-50px}
+.searchbox{display: flex;justify-content: space-around;}
+.searchContent{width:150px;height: 50px;}
+.searchBtn{width:50px;height: 50px;background-color: chocolate;}
 </style>

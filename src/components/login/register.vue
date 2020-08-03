@@ -38,7 +38,7 @@ methods: {
             if(status===0){
                 alert('发送验证码成功')
             }else{
-                alert('发送验证码失败')
+                alert(res.data.msg)
             }
         })
     },
@@ -51,10 +51,10 @@ methods: {
         }).then((res)=>{
             var status=res.data.status
             if(status===0){
-                console.log('success')
+                
                 this.$router.push('/')
             }else{
-                console.log('error')
+                console.log(res.data.msg)
             }
         })
     },

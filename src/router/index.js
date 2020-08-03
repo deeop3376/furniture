@@ -9,19 +9,23 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router)
 
-export default new Router(
+const router= new Router(
     {
-        mode:'history',
+        //mode:'history', 
         base:process.env.BASE_URL,
         routes:[
-            
+            admin,
             {
                 path:'/',
-                component:()=>import('@/views/Home')
+                component:()=>import('@/views/Home'),
+                name:'home',
+                meta:{title:'首页'}
             },
             {
                 path:'/logOrreg',
                 component:()=>import('@/components/login'),
+                name:'logOrreg',
+                meta:{title:'登录注册'},
                 children:[
                     {
                         path:'login',
@@ -34,55 +38,93 @@ export default new Router(
                 ],
                 redirect:'/logOrreg/login'
             },
-            {
-                path:'/register',
-                component:()=>import('@/components/register')
-            },
+            
             {
                 path:'/cart',
-                component:()=>import('@/components/cart')
+                component:()=>import('@/components/cart'),
+                name:'cart',
+                meta:{title:'购物车'}
             },
             
            {
                path:'/my',
                component:()=>import('@/views/my.vue'),
+               name:'my',
+                meta:{title:'我的'},
                children:[
                    {
                        path:'myInfo',
-                       component:()=>import('@/components/mine/myinfo')
+                       component:()=>import('@/components/mine/myinfo'),
+                       name:'myInfo',
+                       meta:{title:'个人信息'}
                    },
                    {
-                    path:'myOrder',
-                    component:()=>import('@/components/mine/myOrder')
-                }
+                        path:'myOrder',
+                        component:()=>import('@/components/mine/myOrder'),
+                        name:'myOrder',
+                        meta:{title:'我的订单'}
+                   },
+                   {
+                       path:'myAddress',
+                       component:()=>import('@/components/mine/myAddress'),
+                       name:'myAddress',
+                       meta:{title:'收货地址'}
+                   }
                 ]
            },
            {
-            path:'/goodslist/',///goodslist/:smallSort
+            path:'/goodslist',///goodslist/:smallSort
               
-            component:()=>import('@/components/goodslist')
+            component:()=>import('@/components/goodslist'),
+            name:'goodslist',
+            meta:{title:'商品列表'},
+            // children:[
+            //     {
+            //         path:'goodsinfo',
+            //         name:'goodsinfo',
+            //         meta:{title:'商品详情'},
+            //         component:()=>import('@/components/goodsinfo'),
+            //     }
+            // ]
             },
             {
                 path:'/hotSale',
-                component:()=>import('@/components/hotSale')
+                component:()=>import('@/components/hotSale'),
+                
             },
             {
                 path:'/goodsinfo',
-                component:()=>import('@/components/goodsinfo')
+                component:()=>import('@/components/goodsinfo'),
+                name:'goodsinfo',
+                meta:{title:'商品详情'}
             },
             {
                 path:'/order',
                 component:()=>import('@/components/order')
             },
             {
-                path:'/addGoods',
-                component:()=>import('@/views/admin/goods')
+                path:'/searchPage',
+                component:()=>import('@/components/search/searchPage')
             },
-            admin,
-            {
-                path:'/page',
-                component:()=>import('@/components/pagination')
-            }
+			{
+				path:'*',
+				redirect:'/'
+			}
         ]
     }
 )
+
+router.beforeEach((to,from,next)=>{
+    if(to.path==='/cart'){
+        let token=localStorage.getItem('ttoken')
+        if(token===null || token===''){
+            next('/logOrreg')
+        }else{
+            next()
+        }
+    }else{
+        next()
+    }
+})
+
+export default router

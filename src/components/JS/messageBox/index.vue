@@ -6,8 +6,7 @@
         <div v-if="cancel" @click="handleCancel">{{cancel}}</div>
         <div v-if="ok" @click="handleOk">{{ok}}</div>
     </div>
-</div>
-
+</div> 
 </template>
 
 <script>

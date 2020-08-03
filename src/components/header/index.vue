@@ -1,16 +1,16 @@
 <template>
   <div class="main">
     <div class="content">
-      <div class="info">
-          <h1>welcome to my store</h1>
+      <div class="info" @click="toHome">
+          <h1>My Furniture</h1>
       </div>
       <div class="login">
 
-        <router-link v-if="!isLogin" to='/logOrreg' tag="a">登录</router-link>
+        <router-link v-if="!isLogin" to='/logOrreg' tag="a">登录/注册</router-link>
         
-        <router-link  to='/my' tag="a">我的</router-link>
+        <router-link v-else to='/my' tag="a">我的</router-link>
         
-        <button v-if="isLogin" @click="logout">退出</button>
+        <span style="font-size:13px;margin-right:3px;cursor:pointer;" v-if="isLogin" @click="logout">退出</span>
         <router-link to='/cart' tag="a">购物车</router-link>
       </div>
     </div>
@@ -30,6 +30,9 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    toHome(){
+      this.$router.push('/')
+    },
     logout(){
       var self=this
       this.axios.get('api2/user/logout').then((res)=>{
@@ -38,8 +41,9 @@ export default {
           this.isLogin=false
           window.sessionStorage.removeItem('username')
         window.sessionStorage.removeItem('userId')
+        alert('logout success')
         }else{
-          console.log(status)
+          console.log('logout failed')
           
         }
       })
@@ -49,7 +53,7 @@ export default {
   activated() {
    
     this.axios.get('/api2/user/getUser').then((res)=>{
-      console.log('aaaa')
+      
       var status = res.data.status
       if(status===0){
         this.isLogin=true
@@ -71,13 +75,13 @@ export default {
 <style scoped>
 .content {
   height: 42px;
-  background-color:darkslategrey;
+  background-color:#272E43;
   display: flex;
   justify-content: space-between;
   color: #ababab;
   font-family: 'Microsoft YaHei'
 }
-.main .content .info{position: relative;left: 100px;}
+.main .content .info{position: relative;left: 100px;cursor: pointer;}
 .main .content .login{position: relative;right: 100px;top: 8px;}
 .main .content .login a{font-size: 10px;margin-right:10px;margin-top:15px;}
 .main .content .login a:link{color: #ababab}
