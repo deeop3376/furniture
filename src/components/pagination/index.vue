@@ -21,11 +21,11 @@ components: {},
 props:{
     disCount:{
         type:Number,
-        default:1
+        default:0
     },
     totalCount:{
         type:Number,
-        default:1
+        default:0
     },
 },
 data() {
@@ -38,6 +38,10 @@ jumpIndex:1
 }
 },
 created(){
+    console.log('41')
+    this.arr1=[]
+    this.total=0
+    this.displayCount=0
     for(var i=1;i<=this.displayCount;i++){
        this.arr1.push(i)
     }

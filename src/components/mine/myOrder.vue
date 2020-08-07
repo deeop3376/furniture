@@ -6,9 +6,9 @@
         <router-link tag="span" to="/my/myOrdere/noPay">未支付</router-link>
         <router-link tag="span" to="/my/myOrdere/Paid">已支付</router-link>
         <router-link tag="span" to="/my/myOrdere/finished">已完成</router-link> -->
-    <div style="color:chocolate" @click="getAll">全部订单</div><br/>
-    <div @click="getNoPay">未支付</div><br/>
-    <div @click="getPaid">已支付</div>
+    <div :class="{'normal':true,menuClass:allOrder===true}" @click="getAll">全部订单</div><br/>
+    <div :class="{'normal':true,menuClass:noPay===true}" @click="getNoPay">未支付</div><br/>
+    <div :class="{'normal':true,menuClass:paid===true}" @click="getPaid">已支付</div>
     
    
     </div>
@@ -21,7 +21,7 @@
         <ul>
             <li v-for="item in goodsinfo" :key="item._id">
                 <div style="color:grey;font-size:15px;" class="orderHead">
-                    2020-05-20&nbsp;订单编号：{{item._id}}
+                    {{item.createDate.toString()}}&nbsp;订单编号：{{item._id}}
                 </div>
                 <div class="order_item">
                    
@@ -69,7 +69,10 @@ data() {
     return {
     orderList:[],
     goodsinfo:[],
-    img:{}
+    img:{},
+    allOrder:false,
+    noPay:false,
+    paid:false,
     }
 },
 created() {
@@ -78,9 +81,12 @@ created() {
         if(res.data.status===0){
             // console.log(res.data.data)
             this.orderList=res.data.data 
+            for(let i=0; i< this.orderList.length;i++){
+                this.orderList[i].createDate= this.orderList[i].createDate.substring(0,10)
+            }
             // this.orderList=JSON.parse( JSON.stringify(res.data.data))
             // console.log(this.orderList)
-            
+            this.allOrder=true
            this.goodsinfo=JSON.parse( JSON.stringify(this.orderList))
 
         }
@@ -93,8 +99,14 @@ methods: {
     getAll(){
         this.goodsinfo=[]
         this.goodsinfo=this.orderList
+        this.allOrder=true
+        this.paid=false
+        this.noPay=false
     },
     getNoPay(){ 
+        this.allOrder=false
+        this.paid=false
+        this.noPay=true
 // orderList形如：[{isPay:false,goods:[goodId:'ff23sf',goodId:'']}] 数组里面有多个订单，每个订单又有多个商品id
 // 要向获取未付款的，就要循环orderList的isPay属性，当其为false时，将遍历该订单的goods中的goodId，并将其push进goodsinfo
 //所以此时goodsinfo中存放的是未付款的
@@ -107,6 +119,9 @@ methods: {
        
     },
     getPaid(){
+        this.allOrder=false
+        this.paid=true
+        this.noPay=false
          this.goodsinfo=[]
     for(let i=0;i<this.orderList.length;i++){
                 if(this.orderList[i].isPay){
@@ -137,7 +152,8 @@ methods: {
 .good_info{width:200px;}
 .good_count{width:100px;}
 .good_price{width:100px;}
-
+.menuClass{color:chocolate;}
+.normal{cursor:pointer;}
 .op_order{width:300px;display: flex;align-items: center;}
 .sum_price{position: relative;width:100px;}
 .goPay{width:70px;height:40px;background-color: chocolate;line-height: 40px;text-align: center;border-radius:4px;}

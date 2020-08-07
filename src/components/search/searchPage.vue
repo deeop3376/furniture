@@ -32,7 +32,7 @@
 <div class="pagination">
     <pagination :disCount="disCount" :totalCount="totalCount" @handleClick="goIndex"></pagination>
 </div>
-
+<footer1 />
 </div>
 </template>
 
@@ -42,27 +42,34 @@ import breadcrumb from '@/components/breadcrumb'
 import pagination from '@/components/pagination'
 import loading from '@/components/loading'
 import sort from '@/components/sort'
+import footer1 from '@/components/footer1'
 export default {
 name:'searchPage',
-components: {Header,breadcrumb,pagination,loading,sort},
+components: {Header,breadcrumb,pagination,loading,sort,footer1},
 data() {
 return {
     searchGood:'',
     goodslist:[],
     disCount:0,//每页展示的页码个数
     totalCount:0,//总页数
-    nowPageNum:1,
+    nowPageNum:0,
     flag:true
 }
 },
 // created() {
       
 // },
-mounted() {
-    
+watch: {
+    $route(){
+        history.go(0)
+    }
 },
-activated(){
-var query=this.$route.query.searchWord
+created(){
+this.searchGoodsList()
+},
+methods: {
+    searchGoodsList(){
+        var query=this.$route.query.searchWord
     this.searchGood=query
     this.axios.get('/api2/goods/searchGoodLength?searchGood='+this.searchGood).then((res)=>{
         if(res.data.status===0){
@@ -82,9 +89,7 @@ var query=this.$route.query.searchWord
             this.flag=false
         }
     })
-},
-methods: {
-
+    },
     goIndex(payload){
 
       if(this.nowPageNum!=payload){
@@ -109,10 +114,10 @@ methods: {
 .tou{width: 1250px;margin:0 auto;}
 .goods_list{width: 1300px;display: flex;margin:0 auto;flex-wrap:wrap;height: 510px;}
 .goods_item{width: 20%;margin-top:20px;}
-.goods_item:hover{transform: scale(1.2,1.2)}
+/* .goods_item:hover{transform: scale(1.2,1.2)} */
 .goods{width: 80%;margin:0 auto;background-color: white;transition: all 0.6s ease;overflow: hidden;}
 .goods_img{width: 100%}
 .goods_name{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .pagination{width:100%;margin-top:50px;}
-
+.goods_img:hover{transform: scale(1.2,1.2)}
 </style>

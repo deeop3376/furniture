@@ -18,7 +18,7 @@
       </div>
 
       <div class="search">
-        <input class="search_text" v-model="searchWord" type="text" />
+        <input @keyup="searchGood1" class="search_text" v-model="searchWord" type="text" />
         <div @click="searchGood" class="search_btn">
           <i class="el-icon-search"></i>
         </div>
@@ -73,6 +73,11 @@ export default {
     this.hideList()
   },
   methods: {
+    searchGood1(e){
+      if(e.code==='Enter'){
+        this.searchGood()
+      }
+    },
     searchGood() {
       this.$router.push({
         path: "/searchPage",

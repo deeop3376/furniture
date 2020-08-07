@@ -40,7 +40,7 @@
         </ul>
         <div class="how_much">
             <div class="sum_operate">
-                <input id="checkall"  type="checkbox"  @change="checkAll"/><label for="checkall">全选</label> <span>删除选中商品</span>
+                <!-- <input id="checkall"  type="checkbox"  @change="checkAll"/><label for="checkall">全选</label> <span>删除选中商品</span> -->
             </div>
             <div class="sum_price">
                 <div class="price_text">已选商品<span style="font-size:18px">{{checkCount}}</span>件：<span style="color:red">{{checkPrice}}元</span></div>
@@ -218,12 +218,12 @@ methods: {
 <style scoped>
 .main .content{width: 100%;}
 .top_head{width:80%;margin:0 auto;display: flex;justify-content:space-between;}
-.cart_head{width: 80%;height: 50px;border:1px solid black;margin:0 auto;display: flex;align-items: center;justify-content: space-around;}
+.cart_head{width: 80%;height: 50px;background-color: cadetblue; margin:0 auto;display: flex;align-items: center;justify-content: space-around;}
 .cart_head>input{position: relative;left: -30px;}
 .goods_price{position: relative;left:30px;}
 .goods_operate{position: relative;left: 25px;}
 .main .content ul{margin:0 auto;width:80%;}
-.main .content ul li{border:1px solid grey;display: flex;height: 80px;margin-top:15px;background-color: white;
+.main .content ul li{display: flex;height: 80px;margin-top:15px;background-color: white;
 padding: 5px;align-items: center;justify-content: space-around}
 .main .content ul li img{width: 60px;height: 60px;}
 .how_much{width:80%;height: 100px;margin:0 auto;display: flex;justify-content: space-between;align-items: center;}

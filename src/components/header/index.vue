@@ -41,7 +41,9 @@ export default {
           this.isLogin=false
           window.sessionStorage.removeItem('username')
         window.sessionStorage.removeItem('userId')
+        window.localStorage.removeItem('ttoken')
         alert('logout success')
+        
         }else{
           console.log('logout failed')
           
@@ -59,11 +61,14 @@ export default {
         this.isLogin=true
         window.sessionStorage.setItem('username',res.data.data.username)
         window.sessionStorage.setItem('userId',res.data.data.userId)
+        window.sessionStorage.setItem('email',res.data.data.email)
         
       }else{
-        console.log('getuser failed')
+        // console.log('getuser failed')
+        window.localStorage.removeItem('ttoken')
         window.sessionStorage.removeItem('username')
         window.sessionStorage.removeItem('userId')
+        window.sessionStorage.removeItem('email')
       }
     })
   },

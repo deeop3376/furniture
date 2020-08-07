@@ -33,7 +33,7 @@
 <div class="pagination">
     <pagination :disCount="disCount" :totalCount="totalCount" @handleClick="goIndex"></pagination>
 </div>
-
+<footer1 />
 </div>
 </template>
 
@@ -43,9 +43,10 @@ import breadcrumb from '@/components/breadcrumb'
 import pagination from '@/components/pagination'
 import loading from '@/components/loading'
 import sort from '@/components/sort'
+import footer1 from '@/components/footer1'
 export default {
 name:'goods_list',
-components: {Header,breadcrumb,pagination,loading,sort},
+components: {Header,breadcrumb,pagination,loading,sort,footer1},
 data() {
 return {
     smallSort:'',
@@ -62,7 +63,7 @@ return {
 mounted() {
     
 },
-activated(){
+created(){
 var query=this.$route.query.smallSort
     this.smallSort=query
 
@@ -127,6 +128,6 @@ methods: {
 .goods{width: 80%;margin:0 auto;background-color: white;transition: all 0.6s ease;overflow: hidden;}
 .goods_img{width: 100%}
 .goods_name{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-.pagination{width:100%;margin-top:50px;}
+.pagination{width:100%;margin-top:50px;margin-bottom: 50px;}
 .noneContent{width:100%;height:100%;text-align: center;line-height: 500px;font-size: 40px;}
 </style>

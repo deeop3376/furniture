@@ -9,16 +9,25 @@
           <ul>
               <li class="users">
                 <div class="user_info">
-                  <img class="user_head" src="@/assets/logo.png"/>
-                  <p>this is your name</p>
-                  <p>234234223@qq.com</p>  
+                  <img class="user_head" src="@/assets/userHead.jpg"/>
+                  <p>{{userInfo.username}}</p>
+                  <p>{{userInfo.email}}</p>  
                 </div>  
               </li>   
               <br/>
               <hr/>         
-              <router-link to="/my/myOrder" tag="li" class="left_li">我的订单</router-link>
-              <router-link to="/my/myinfo" tag="li" class="left_li">个人信息</router-link>
-              <router-link to="/my/myAddress" tag="li" class="left_li">收货地址</router-link>
+              <router-link to="/my/myOrder" tag="li"
+               :class="{'left_li':true,'active':isOrder===true}"
+               >
+               我的订单
+               </router-link>
+              <router-link to="/my/myinfo" tag="li"
+                :class="{'left_li':true,'active':user===true}"
+                >个人信息
+                </router-link>
+              <router-link to="/my/myAddress" tag="li" 
+               :class="{'left_li':true,'active':shipping===true}"
+               >收货地址</router-link>
           </ul>
          
       </div>
@@ -40,16 +49,54 @@ export default {
   },
   data() {
     return {
-      userInfo:[]
+      userInfo:{
+        username:'',
+        email:'',
+      },
+      isOrder:false,
+      user:false,
+      shipping:false
     };
   },
   created(){
-
+    this.userInfo.username=window.sessionStorage.getItem('username')
+    this.userInfo.email=window.sessionStorage.getItem('email')
+    this.isOrder=true
   },
   computed: {},
-  watch: {},
+  watch: {
+    $route(){
+      if(this.$route.name==='myOrder'){
+        this.isOrder=true
+        this.user=false
+        this.shipping=false
+      }else if(this.$route.name==='myInfo'){
+        this.isOrder=false
+        this.user=true
+        this.shipping=false
+      }else if(this.$route.name==='myAddress'){
+        this.isOrder=false
+        this.user=false
+        this.shipping=true
+      }
+    }
+  },
   methods: {
-  
+    orderClick(){
+      this.isOrder=true
+      this.user=false
+      this.shipping=false
+    },
+    userClick(){
+      this.isOrder=false
+      this.user=true
+      this.shipping=false
+    },
+    shippingClick(){
+      this.isOrder=false
+      this.user=false
+      this.shipping=true
+    },
     upload(ev){
        var file=ev.target.files[0]
         var param=new window.FormData()
@@ -77,6 +124,6 @@ export default {
 .left_li:hover{color:red;}
 
 .user_info{width:100%;margin:0 auto;text-align: center;color:grey;margin-top:20px;}
-
+.active{background-color: chocolate;color: white}
 .user_head{width: 100px;border:2px solid grey;border-radius: 50px;}
 </style>

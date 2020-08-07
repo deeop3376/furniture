@@ -58,13 +58,13 @@ mounted(){
 <style scoped>
 /* .main{width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;} */
 .loginReg{width: 100%;height:100%;}
-.content{width: 100%;height:100%;background: linear-gradient(to right bottom , gray,lightblue)}
+.content{width: 100%;height:100%;background: linear-gradient(to right bottom ,#272E43, #FF6700)}
 
-.main_body{width: 400px;height: 500px;background-color: white;
+.main_body{width: 400px;height: 400px;background-color: white;
 position: relative;top:50%;left:50%;transform: translate(-50%,-50%)}
-.body_head{height: 50px;background-color: gray;}
+.body_head{height: 50px;background-color: #FF6700;text-align: center;}
 
 .logOrreg{width: 100%;}
-.fs{font-size: 40px;cursor:pointer;}
-.active{background-color: white}
+.fs{font-size: 40px;cursor:pointer;border-radius:5px;color:white}
+.active{background-color: white;color: #FF6700;}
 </style>

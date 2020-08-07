@@ -70,7 +70,8 @@ const router= new Router(
                        name:'myAddress',
                        meta:{title:'收货地址'}
                    }
-                ]
+                ],
+                redirect:'/my/myOrder'
            },
            {
             path:'/goodslist',///goodslist/:smallSort
@@ -115,7 +116,7 @@ const router= new Router(
 )
 
 router.beforeEach((to,from,next)=>{
-    if(to.path==='/cart'){
+    if(to.path==='/cart' || to.path.includes('/my') || to.path.includes('/order')){
         let token=localStorage.getItem('ttoken')
         if(token===null || token===''){
             next('/logOrreg')
